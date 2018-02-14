@@ -1,36 +1,59 @@
-package com.github.grimpy.botifier;
+package com.github.grimpy.botifier.receivers;
 
 
 import android.annotation.TargetApi;
 import android.app.Notification;
-import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
+import com.github.grimpy.botifier.Botification;
+import com.github.grimpy.botifier.NotificationEvents;
+
 @TargetApi(18)
-public class BotifierNotificationService extends NotificationListenerService implements NotificationInterface{
+public class BotifierNotificationService extends NotificationListenerService{
 	private static String TAG = "Botifier";
-	private BotifierManager mBotifyManager;
+    public static String REMOVE_NOTIFICATION = "com.github.grimpy.botifier.REMOVE_NOTIFICATION";
 	private Handler mHandler;
+
+
+    private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            Log.d(TAG, "Received action " + intent.getAction());
+            if (intent.getAction().equals(NOTIFICATION_SERVICE) ) {
+                Botification bot = intent.getParcelableExtra("botification");
+                cancelNotification(bot);
+            }
+        }
+    };
 
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		Log.i(TAG, "Manager started");
-		mBotifyManager = new BotifierManager(this);
+        final IntentFilter filter = new IntentFilter();
+        filter.addAction(REMOVE_NOTIFICATION);
+        // Attach the broadcast listener
+        registerReceiver(mIntentReceiver, filter);
 	    mHandler = new Handler(){
 	    	public void handleMessage(Message msg){
-	    		String cmd = BotifierManager.CMD_NOTIFICATION_ADDED;
+	    		String cmd = NotificationEvents.NOTIFICATION_ADDED;
 	    		if (msg.arg1 == 1) {
-	    			cmd = BotifierManager.CMD_NOTIFICATION_REMOVED;
+	    			cmd = NotificationEvents.NOTIFICATION_REMOVED;
 	    		}
 	    		StatusBarNotification stn = (StatusBarNotification)msg.obj;
-	    		if (stn == null || !mBotifyManager.isIntresting(stn.getNotification())) {
+	    		if (stn == null) {
 	    			return;
 	    		}
 	    		Notification not = stn.getNotification();
@@ -41,21 +64,23 @@ public class BotifierNotificationService extends NotificationListenerService imp
 	    		if (not.tickerText != null) {
 	    			description = not.tickerText.toString();
 	    		}
-	    		Service srv = BotifierNotificationService.this;
+	    		android.app.Service srv = BotifierNotificationService.this;
 	    		String text = Botification.extractTextFromNotification(srv, not);
 	    		Botification bot = new Botification(stn.getId(), stn.getPackageName(), stn.getTag(), description, text);
+	    		bot.load(BotifierNotificationService.this);
+	    		if (bot.isBlackListed() || !bot.isIntresting(not)) {
+	    		    return;
+	    		}
 	    		Intent i = new Intent(cmd);
 	    		i.putExtra("botification", bot);
 	    		sendBroadcast(i);
-	    		//Looper.myLooper().quit();
-		    }       
+		    }
 		};
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		mBotifyManager.destroy();
 	}
 	
 	@Override

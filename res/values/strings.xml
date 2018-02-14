@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="enable_disable">Enable/Disable</string>
     <string name="select_all">Select All</string>
     <string name="select_none">Select None</string>
     <string name="app_name">Botifier</string>
@@ -35,6 +36,8 @@
     <string name="maxlength">Max Length</string>
     <string name="maxlength_desc">Maximum length of text displayed</string>
     <string name="debug">Debug</string>
+    <string name="open_settings">Give Botifier Access</string>
+    <string name="open_settings_descr">Open SystemSettings to allow Botifier to receive notifications</string>
     <string name="makenotification">Test Notification</string>
     <string name="custom_title">Enter custom text</string>
     <string name="custom_description">Usage:\n\n
@@ -58,5 +61,17 @@
         <item >%d</item>
         <item >custom</item> 
    </string-array>
+
+
+    <!-- preference -->
+    <string name="notification_plugins">Notification Plugins</string>
+    <string name="device_display">Device Display</string>
+
+   <!-- Smart watch stuf -->
+   <string name="extension_name">Botifier</string>
+   <string name="configuration_text">What is this</string>
+   <string name="sw2_long">Sony Smartwatch 2</string>
+   <string name="clear_all">Clear All</string>
+   <string name="title_sw_keep_cleared">Keep removed notifications</string>
 
 </resources>

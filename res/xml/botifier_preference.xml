@@ -1,72 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     <PreferenceCategory android:title="@string/general">
+        <Preference android:title="@string/notification_plugins"
+                    android:key="@string/pref_plugins"/>
+        <Preference android:title="@string/open_settings"
+            android:key="@string/pref_open_access"
+            android:summary="@string/open_settings_descr"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/filters">
         <CheckBoxPreference android:title="@string/persistent_notification"
             android:key="@string/pref_persistent_notification"
             android:summary="@string/persistent_notification_desc"
             android:defaultValue="false"/>
-        <EditTextPreference android:numeric="integer"
-	        			android:key="@string/pref_timeout"
-	        			android:dialogTitle="@string/timeout"
-	        			android:summary="@string/timeout_desc"
-	        			android:title="@string/timeout"/>
-     	
-    </PreferenceCategory>
-    <PreferenceScreen android:title="@string/category_tts">
-        <CheckBoxPreference android:title="@string/action_tts"
-            android:key="@string/pref_tts_enabled"
-            android:summary="@string/action_tts_desc"
-            android:defaultValue="false" />
-   	    <ListPreference android:entries="@array/metadata_fields"
-			android:key="@string/pref_tts_value"
-            android:entryValues="@array/metadata_fields_values"
-            android:defaultValue="%m"
-            android:dialogTitle="@string/tts_value" android:title="@string/tts_value"/>
-   	    <CheckBoxPreference android:title="@string/bt_only"
-            android:key="@string/pref_tts_bt_only"
-            android:summary="@string/bt_only_desc_tts"
-            android:defaultValue="true" />
-   	        
-	</PreferenceScreen>
-    
-    <PreferenceScreen android:title="@string/metadata_display">
-	    <ListPreference android:entries="@array/metadata_fields"
-	        			android:key="@string/pref_metadata_artist"
-	                    android:entryValues="@array/metadata_fields_values"
-	                    android:defaultValue="%a"
-	                    android:dialogTitle="@string/metadata_artist" android:title="@string/metadata_artist"/>
-	    <ListPreference android:entries="@array/metadata_fields"
-	        			android:key="@string/pref_metadata_album" 
-	                    android:entryValues="@array/metadata_fields_values"
-	                    android:defaultValue="%d" 
-	                    android:dialogTitle="@string/metadata_album" android:title="@string/metadata_album"/>
-	    <ListPreference android:entries="@array/metadata_fields"
-	        			android:key="@string/pref_metadata_title" 
-	                    android:entryValues="@array/metadata_fields_values"
-	                    android:defaultValue="%m" 
-	                    android:dialogTitle="@string/metadata_title" android:title="@string/metadata_title"/>
-	    <EditTextPreference android:numeric="integer"
-	        			android:key="@string/pref_maxlength"
-	        			android:dialogTitle="@string/maxlength"
-	        			android:summary="@string/maxlength_desc"
-	        			android:title="@string/maxlength"/>
-     	<CheckBoxPreference android:title="@string/bt_only"
-            android:key="@string/pref_metadata_bt_only"
-            android:summary="@string/bt_only_desc_meta"
-            android:defaultValue="true" />
-	        
-    </PreferenceScreen>
-    <PreferenceCategory android:title="@string/filters">
-    	<Preference android:title="@string/blacklist" android:key="@string/action_blacklist"/>
     	<Preference android:title="@string/applications"
                     android:key="@string/action_filter_applications"
                     android:summary="@string/applications_desc"/>
+        <Preference android:title="@string/blacklist" android:key="@string/action_blacklist"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/debug">
         <Preference android:title="@string/makenotification"
           		android:key="@string/action_makenotification"
         />
-        
     </PreferenceCategory>
-    
 </PreferenceScreen>
